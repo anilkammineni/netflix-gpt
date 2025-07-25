@@ -2,7 +2,8 @@
 
 - Scaffold application using VITE
 - Configure Tailwind CSS
-
+- Header
+- Login Form
 
 
 # Features
