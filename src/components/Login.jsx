@@ -7,15 +7,14 @@ import {
 	updateProfile,
 } from "firebase/auth";
 import { auth } from "../utils/firebase";
-import { useNavigate } from "react-router-dom";
 import { useDispatch } from "react-redux";
 import { addUser } from "../utils/userSlice";
+import { NetflixHomePage_Logo, User_Avatar } from "../utils/constants";
 
 const Login = () => {
 	const [isSignInForm, setIsSignInForm] = useState(true);
 	const [errorMessage, setErrorMessage] = useState(null);
-	const navigate = useNavigate();
-	const dispath = useDispatch();
+	const dispatch = useDispatch();
 
 	const userName = useRef(null);
 	const email = useRef(null);
@@ -23,7 +22,9 @@ const Login = () => {
 
 	const toggleSignInForm = () => {
 		setIsSignInForm(!isSignInForm);
-		setErrorMessage(null);
+        setErrorMessage(null);
+        email.current.value = null;
+        password.current.value = null;
 	};
 
 	const handleButtonClick = () => {
@@ -47,7 +48,6 @@ const Login = () => {
 			)
 				.then((userCredential) => {
 					const user = userCredential.user;
-					navigate("/browse");
 				})
 				.catch((error) => {
 					const errorCode = error.code;
@@ -64,13 +64,13 @@ const Login = () => {
 				.then((userCredential) => {
 					const user = userCredential.user;
 					updateProfile(user, {
-						displayName: name,
-						photoURL: "src/assets/Profile.jpeg",
+						displayName: name, 
+						photoURL: User_Avatar
 					})
 						.then(() => {
 							const { uid, email, displayName, photoURL } =
 								auth.currentUser;
-							dispath(
+							dispatch(
 								addUser({
 									uid: uid,
 									email: email,
@@ -78,74 +78,82 @@ const Login = () => {
 									photoURL: photoURL,
 								})
 							);
-							navigate("/browse");
 						})
 						.catch((error) => {
-							const errorCode = error.code;
-							const errorMessage = error.message;
-
-							setErrorMessage(errorCode + "-" + errorMessage);
+							setErrorMessage(`${error.code} - ${error.message}`);
 						});
-					navigate("/browse");
 				})
 				.catch((error) => {
-					const errorCode = error.code;
-					const errorMessage = error.message;
-
-					setErrorMessage(errorCode + "-" + errorMessage);
+					setErrorMessage(`${error.code} - ${error.message}`);
 				});
 		}
 	};
 
 	return (
-		<div>
+		<div className="relative h-screen w-screen overflow-hidden">
 			<Header />
-			<div className="absolute">
-				<img src="https://assets.nflxext.com/ffe/siteui/vlv3/258d0f77-2241-4282-b613-8354a7675d1a/web/US-en-20250721-TRIFECTA-perspective_6d968797-b773-4ec4-aa69-2a9c2e41ae94_large.jpg" />
+
+			<div className="absolute top-0 left-0 w-full h-full -z-10">
+				<img
+					src={NetflixHomePage_Logo}
+					alt="Background"
+					className="object-cover w-full h-full"
+				/>
 			</div>
+
 			<form
 				onSubmit={(e) => e.preventDefault()}
-				className="absolute bg-black p-12 w-3/12 my-40 mx-auto right-0 left-0 text-white rounded-lg opacity-80"
+				className="absolute bg-black opacity-90 p-6 sm:p-8 md:p-10 w-11/12 sm:w-3/4 md:w-2/3 lg:w-1/3 top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2 text-white rounded-lg shadow-md"
 			>
 				<h1 className="font-bold py-4 text-3xl">
 					{isSignInForm ? "Sign In" : "Sign Up"}
 				</h1>
+
 				{!isSignInForm && (
 					<input
 						type="text"
 						ref={userName}
-						placeholder="Name"
-						className="p-4 my-2 w-full border rounded"
+						placeholder="Full Name"
+						className="p-4 my-2 w-full border border-gray-500 rounded bg-gray-900 text-white"
+						required
 					/>
 				)}
+
 				<input
 					ref={email}
-					type="text"
-					placeholder="Email or mobile number"
-					className="p-4 my-2 w-full border rounded"
+					type="email"
+					placeholder="Email"
+					className="p-4 my-2 w-full border border-gray-500 rounded bg-gray-900 text-white"
+					required
 				/>
 				<input
-					type="text"
 					ref={password}
+					type="password"
 					placeholder="Password"
-					className="p-4 my-2 w-full border rounded"
+					className="p-4 my-2 w-full border border-gray-500 rounded bg-gray-900 text-white"
+					required
 				/>
-				<p className="text-red-500 py-2 font-bold text-lg">
-					{errorMessage}
-				</p>
+
+				{errorMessage && (
+					<p className="text-red-500 py-2 font-semibold text-sm">
+						{errorMessage}
+					</p>
+				)}
+
 				<button
 					onClick={handleButtonClick}
-					className="bg-red-600 w-full p-2 my-2 rounded cursor-pointer"
+					className="bg-red-600 w-full p-3 my-4 rounded hover:bg-red-700 transition duration-200"
 				>
-					{isSignInForm ? "Sign In" : "Sign up"}
+					{isSignInForm ? "Sign In" : "Sign Up"}
 				</button>
+
 				<p
-					className="py-4 cursor-pointer underline"
+					className="text-center py-2 cursor-pointer underline text-sm"
 					onClick={toggleSignInForm}
 				>
 					{isSignInForm
 						? "New to Netflix? Sign up now"
-						: "Already registered? Sign In"}
+						: "Already registered? Sign in"}
 				</p>
 			</form>
 		</div>
