@@ -11,8 +11,22 @@ export const API_OPTIONS = {
   method: 'GET',
   headers: {
     accept: 'application/json',
-    Authorization: 'Bearer eyJhbGciOiJIUzI1NiJ9.eyJhdWQiOiI5MGIxMjY0MzM3NWJlMDdiMWRhYjg4ZDEwYzUwZWNlZSIsIm5iZiI6MTc1MzU3MDY2NS4zNTY5OTk5LCJzdWIiOiI2ODg1NWQ2OTgwOTcxYTczYTM1MmFkNzAiLCJzY29wZXMiOlsiYXBpX3JlYWQiXSwidmVyc2lvbiI6MX0.pA-GXrzQslUyiz-lZ8ENVlvpscu6r_Q5KOyvB1ryfnU'
+    Authorization: 'Bearer ' + import.meta.env.VITE_TMDB_KEY
   }
 }
 
 export const Movie_Poster_CDN_URL = "https://image.tmdb.org/t/p/w500";
+
+export const supportedLaguages = [
+  {
+    identifier: "en", name: "English"
+  },
+  {
+    identifier: "es", name: "Spanish"
+  },
+  {
+    identifier: "tg", name: "Telugu"
+  }
+]
+
+export const OPENAI_KEY = import.meta.env.VITE_OPEN_API_KEY

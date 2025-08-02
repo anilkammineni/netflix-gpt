@@ -4,13 +4,17 @@ import { useNavigate } from "react-router-dom";
 import { useDispatch, useSelector } from "react-redux";
 import { useEffect } from "react";
 import { addUser, removeUser } from "../utils/userSlice";
-import { Netflix_Logo } from "../utils/constants";
+import { Netflix_Logo, supportedLaguages } from "../utils/constants";
+import { toggleGPTSearchView } from "../utils/gptSearchSlice";
+import {changeLanguage} from "../utils/userPreferences"
 
 
 const Header = () => {
 	const navigate = useNavigate();
 	const user = useSelector(store => store.user);
+	const userPreferences = useSelector(store => store.userPreferences.lang)
 	const dispatch = useDispatch();
+	const showGptSearch = useSelector((store) => store.gptSearch.showGPTSearch);
 
 	useEffect(() => {
 		const unsubscribe = onAuthStateChanged(auth, (user) => {
@@ -47,6 +51,14 @@ const Header = () => {
 			});
 	};
 
+	const handleGptSearch = () => {
+		dispatch(toggleGPTSearchView());
+	}
+	
+	const handleLanguageChange = (e) => {
+		dispatch(changeLanguage(e.target.value));
+	}
+
 	return (
 		<div className="absolute w-screen flex justify-between px-8 py-2 bg-gradient-to-b from-black z-20">
 			<img
@@ -55,6 +67,15 @@ const Header = () => {
 				className="w-44"
 			/>
 			{user && <div className="flex p-2">
+				{showGptSearch && 
+					<select value={userPreferences} onChange={handleLanguageChange} className="text-white m-2 bg-gray-700 py-2">
+						{supportedLaguages.map(lang => <option key={lang.identifier} value={lang.identifier}>{lang.name}</option>)}
+					</select>
+				}
+				<button className="text-white py-2 px-4 mx-4 font-bold cursor-pointer bg-purple-300 rounded-lg"
+				onClick={handleGptSearch}>
+					{showGptSearch ? "Home Page" : "GPT Search"}
+				</button>
 				<img
 					className="w-18 h-18"
 					src={user.photoURL}
