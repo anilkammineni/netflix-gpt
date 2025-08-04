@@ -3,6 +3,7 @@ import Browse from "./Browse";
 import Login from "./Login";
 import { RouterProvider } from "react-router-dom";
 import { useDispatch } from "react-redux";
+import MovieVideo from "./MovieVideo";
 
 const Body = () => {
 
@@ -16,6 +17,10 @@ const Body = () => {
         {
             path: "/browse",
             element: <Browse />
+        },
+        {
+            path: "/movie/:id",
+            element: <MovieVideo />
         }
     ])
     
