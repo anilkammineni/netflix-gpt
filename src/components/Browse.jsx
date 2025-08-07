@@ -16,8 +16,6 @@ const Browse = () => {
 
 	const showGPTSearch = useSelector((store) => store.gptSearch.showGPTSearch);
 
-	console.log("SHOW GPT: ", showGPTSearch);
-
 	return (
 		<div>
 			<Header />

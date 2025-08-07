@@ -10,7 +10,7 @@ const MovieCard = ({ movieId, posterPath }) => {
 	}
 
     return (
-			<div className="w-50 pr-4 rounded-lg hover:cursor-pointer" onClick={playMovieVideo}>
+			<div className="w-30 md:w-50 pr-4 rounded-lg hover:cursor-pointer" onClick={playMovieVideo}>
 				<img
 					alt="movie logo"
 					src={Movie_Poster_CDN_URL + posterPath}

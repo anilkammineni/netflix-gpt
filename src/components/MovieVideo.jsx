@@ -1,44 +1,31 @@
 import { useParams } from "react-router-dom";
 import VideoTitle from "./VideoTitle";
-import VideoBackaground from "./VideoBackground";
-import { API_OPTIONS } from "../utils/constants";
-import { useEffect } from "react";
-import useMovieInformation from "../hooks/useMovieInformation";
 import { useSelector } from "react-redux";
+import useMovieInformation from "../hooks/useMovieInformation";
 
 const MovieVideo = () => {
-    const { id } = useParams();
+	const { id } = useParams();
+	useMovieInformation(id);
 
-    useMovieInformation(id);
-    
-    const movieDetails = useSelector((store) => store.movies.movieDetails[id]);
+	const movieDetails = useSelector((store) => store.movies.movieDetails[id]);
+	if (!movieDetails) return <div className="text-white p-4">Loading...</div>;
 
-    if (!movieDetails) return;
+	const { title, overview, trailerVideo } = movieDetails;
 
-    const { title, overview, trailerVideo } = movieDetails;
+	return (
+		<div className="relative w-full h-screen">
+			<iframe
+				className="absolute top-0 left-0 w-full h-full object-cover"
+				src={`https://www.youtube.com/embed/${trailerVideo?.key}?&autoplay=1&mute=1&controls=0&showinfo=0&rel=0`}
+				title="YouTube video player"
+				allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
+				referrerPolicy="strict-origin-when-cross-origin"
+			></iframe>
 
-    return (
-			<div>
-				{title && overview && (
-					<div>
-						<VideoTitle videoTitle={title} videoOverView={overview} />
-						<div className="w-screen">
-							<iframe
-								className="w-screen aspect-video"
-								src={
-									"https://www.youtube.com/embed/" +
-									trailerVideo?.key +
-									"?&autoplay=1&mute=1"
-								}
-								title="YouTube video player"
-								allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
-								referrerPolicy="strict-origin-when-cross-origin"
-							></iframe>
-						</div>
-					</div>
-				)}
-			</div>
-		);
-}
+			{/* Overlay title */}
+			<VideoTitle videoTitle={title} videoOverView={overview} />
+		</div>
+	);
+};
 
 export default MovieVideo;

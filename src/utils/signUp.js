@@ -5,7 +5,7 @@ export const signUp = (email, password, setErrorMessage) => {
 
     createUserWithEmailAndPassword(auth, email, password)
         .then((userCredential) => {
-            console.log(userCredential);
+            //console.log(userCredential);
         })
         .catch((error) => {
             const errorCode = error.code;

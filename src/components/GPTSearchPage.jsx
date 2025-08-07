@@ -4,7 +4,7 @@ import GptMovieSuggestions from "./GPTMovieSuggestions";
 
 const GPTSearchPage = () => {
 	return (
-		<div>
+		<>
 			<div className="fixed top-0 left-0 w-full h-full -z-10">
 				<img
 					src={NetflixHomePage_Logo}
@@ -12,9 +12,11 @@ const GPTSearchPage = () => {
 					className="object-cover w-full h-full"
 				/>
 			</div>
-			<GPTSearchBar />
-			<GptMovieSuggestions />
-		</div>
+			<div className="">
+				<GPTSearchBar />
+				<GptMovieSuggestions />
+			</div>
+		</>
 	);
 };
 

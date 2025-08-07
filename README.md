@@ -5,7 +5,6 @@
 - Header
 - Login Form
 
-
 # Features
 - Login/Sign Up
  - Sign In / Sign Up form
@@ -17,6 +16,7 @@
     - Movie Title and Description
     - Movie suggestions
         - Movie lists * n
+    
 - Netfix GTP
  - Search bar
  - Movie suggestions

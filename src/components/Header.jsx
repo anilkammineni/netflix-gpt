@@ -60,13 +60,13 @@ const Header = () => {
 	}
 
 	return (
-		<div className="absolute w-screen flex justify-between px-8 py-2 bg-gradient-to-b from-black z-20">
+		<div className="absolute w-screen flex flex-col md:flex-row justify-between px-8 py-2 bg-gradient-to-b from-black z-20 bg-black">
 			<img
 				src={Netflix_Logo}
 				alt="logo"
-				className="w-44"
+				className="w-44 mx-auto md:mx-0"
 			/>
-			{user && <div className="flex p-2">
+			{user && <div className="flex p-2 justify-between">
 				{showGptSearch && 
 					<select value={userPreferences} onChange={handleLanguageChange} className="text-white m-2 bg-gray-700 py-2">
 						{supportedLaguages.map(lang => <option key={lang.identifier} value={lang.identifier}>{lang.name}</option>)}
@@ -77,7 +77,7 @@ const Header = () => {
 					{showGptSearch ? "Home Page" : "GPT Search"}
 				</button>
 				<img
-					className="w-18 h-18"
+					className="hidden md:block w-18 h-18"
 					src={user.photoURL}
 					alt="user-icon"
 				/>

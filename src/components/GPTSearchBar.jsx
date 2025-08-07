@@ -34,9 +34,8 @@ const GPTSearchBar = () => {
         const response = await openai.responses.create({
 				model: "gpt-4o-mini-2024-07-18",
 				input: gptQuery,
-			});
-
-        console.log("gpt response: ", response.output_text);
+        });
+        
         const gptMovies = response.output_text.split(",");
         
         const promiseArray = gptMovies.map((movie) => searchMovieInTMDB(movie))
@@ -47,8 +46,8 @@ const GPTSearchBar = () => {
     }
 
 	return (
-		<div className="pt-[10%]">
-			<form className="w-1/2 bg-black grid grid-cols-12 mx-auto" onSubmit={(e) => e.preventDefault()}>
+		<div className="pt-[40%] md:pt-[10%]">
+			<form className="w-full md:w-1/2 bg-black grid grid-cols-12 mx-auto" onSubmit={(e) => e.preventDefault()}>
 				<input
                     type="text"
                     ref={searchText}
